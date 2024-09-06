@@ -43,7 +43,7 @@ class LogoutView(View):
         auth_logout(request)
         return redirect('login')  # Redirect to login page after logout
 # regestration view
-class RegisterView(View):
+class register(View):
     def get(self, request):
         form = UserCreationForm()
         return render(request, 'relationship_app/register.html', {'form': form})
