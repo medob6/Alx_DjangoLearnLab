@@ -66,6 +66,10 @@ class register(View):
             return redirect("home")  # Redirect to a home page or dashboard
         return render(request, "relationship_app/register.html", {"form": form})
 
+# home
+def home(request):
+    return render(request, 'relationship_app/home.html')
+
 
 def is_admin(user):
     """

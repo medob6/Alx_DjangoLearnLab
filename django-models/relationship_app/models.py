@@ -48,6 +48,6 @@ class UserProfile(models.Model):
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        UserProfile.objects.create(user=instance)
+    if sender == User and created:
+        UserProfile.objects.get_or_create(user=instance)
 #post_save.connect(create_user_profile, sender=User) ## we can use this also to create a user profile automatically when a user is created istead of the decorator above

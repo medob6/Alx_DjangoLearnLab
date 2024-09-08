@@ -31,4 +31,5 @@ urlpatterns = [
     path('add_book/', add_book, name='add_book'),
     path('edit_book/', edit_book, name='edit_book'),
     path('delete_book/', delete_book, name='delete_book'),
+    path('home', views.home, name='home'),
 ]
