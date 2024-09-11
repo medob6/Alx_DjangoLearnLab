@@ -1,1 +1,48 @@
-<h1>welcome home</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Home</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/library_styles.css' %}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Welcome to the City Library</h1>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="#">Catalog</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h2>Your Gateway to Knowledge</h2>
+            <p>Explore thousands of books, journals, and digital resources from the comfort of your home or visit us for an immersive reading experience.</p>
+            <a href="#" class="btn">Browse Catalog</a>
+        </div>
+    </section>
+
+    <section class="about">
+        <div class="container">
+            <h2>About Our Library</h2>
+            <p>We offer a wide range of books, eBooks, and other resources to fuel your curiosity and expand your knowledge.</p>
+            <p>Visit us or explore our online catalog today.</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 City Library. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
