@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 
 # this is how se write test and run them using (python manage.py test) command
+# to create a fully functional test we need to use TestCase models
 
 class AuthenticationTestCase(TestCase):
 

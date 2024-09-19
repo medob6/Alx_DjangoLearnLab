@@ -32,7 +32,6 @@ def register(request):
     else:
         form = CustomUserCreationForm()
     return render(request, 'register.html', {'form': form})
-
 Testing:
 
     Navigate to /register/.
