@@ -1,0 +1,27 @@
+# Blog Post Management Features
+
+This project enables users to manage blog posts with full CRUD functionality (Create, Read, Update, Delete).
+Key Features:(using django built_in CBV to manipulate data)
+
+    List Posts: Displays all posts on the homepage (/).(here we used Listview inherted properties we only give it the name of the template and moduls and context name and how to order the data)
+    View Post: Shows full content of a post (/post/<int:pk>/).
+    Create Post: Authenticated users can create new posts (/post/new/).
+    Edit Post: Only the post author can edit their posts (/post/<int:pk>/edit/).
+    Delete Post: Authors can delete their posts after confirmation (/post/<int:pk>/delete/).
+
+# Permissions:
+
+    Authenticated Users: Required to create posts. (we used loginrequeredmixins and ...)
+    Post Authors: Only authors can edit or delete their posts.
+
+# URL Patterns:
+
+    / – List posts
+    /post/<int:pk>/ – View post details
+    /post/new/ – Create new post
+    /post/<int:pk>/edit/ – Edit post
+    /post/<int:pk>/delete/ – Delete post
+
+# Testing:
+
+    Check CRUD operations, permissions, and navigation between views.

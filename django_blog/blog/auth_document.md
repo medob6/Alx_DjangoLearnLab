@@ -1,22 +1,20 @@
-This documentation provides a detailed explanation of the user authentication system developed for the Django blog project. It includes user registration, login, logout, and profile management features, as well as instructions for testing and securing the system.
-1. Overview of the Authentication System
+# This documentation provides a detailed explanation of the user authentication system developed for the Django blog project. It includes user registration, login, logout, and profile management features, as well as instructions for testing and securing the system.
+# Overview of the Authentication System
 
-The authentication system is built using Django’s built-in user authentication functionalities. The system provides:
+# The authentication system is built using Django’s built-in user authentication functionalities. The system provides:
 
-    User Registration: Allows users to create accounts with username, email, and password.
-    Login and Logout: Enables users to log into their accounts and log out securely.
-    Profile Management: Allows authenticated users to view and update their profile information.
+# User Registration: Allows users to create accounts with username, email, and password. Login and Logout: Enables users to log into their accounts and log out securely. Profile Management: Allows authenticated users to view and update their profile information.
 
-2. User Registration
+# User Registration
 How It Works:
 
     View: A custom CustomUserCreationForm form is created by extending Django’s UserCreationForm. This form allows users to register with a username, email, and password.
     URL: The registration view is accessible via /register/.
     Template: The register.html template provides the registration form to users.
 
-Code Example:
+# Code Example:
 
-python
+```python
 
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
@@ -32,7 +30,8 @@ def register(request):
     else:
         form = CustomUserCreationForm()
     return render(request, 'register.html', {'form': form})
-Testing:
+```
+# Testing:
 
     Navigate to /register/.
     Fill in the registration form.
@@ -49,7 +48,7 @@ How It Works:
 
 Code Example (URLs):
 
-python
+```python
 
 from django.urls import path
 from django.contrib.auth import views as auth_views
@@ -58,6 +57,7 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(next_page='/'), name='logout'),
 ]
+```
 
 Testing:
 
@@ -74,7 +74,7 @@ How It Works:
 
 Code Example (Profile View):
 
-python
+```python
 
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
@@ -91,7 +91,7 @@ def profile(request):
     else:
         form = ProfileForm(instance=request.user)
     return render(request, 'profile.html', {'form': form})
-
+```
 Testing:
 
     Navigate to /profile/ as an authenticated user.
@@ -138,7 +138,7 @@ You can create unit tests to verify the functionality of the authentication syst
 
 Example test case:
 
-python
+```python
 
 from django.test import TestCase
 from django.contrib.auth.models import User
@@ -153,4 +153,4 @@ class AuthenticationTest(TestCase):
         })
         self.assertEqual(response.status_code, 302)  # Redirect after success
         self.assertTrue(User.objects.filter(username='testuser').exists())
-
+```
