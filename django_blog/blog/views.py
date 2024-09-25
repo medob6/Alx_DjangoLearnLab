@@ -13,6 +13,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 # Create your views here.
 def home(request):
     return render(request, "blog/base.html")
+def about(request):
+    return render(request, "blog/about.html")
 
 
 def register(request):
@@ -68,6 +70,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     fields = ["title", "content"]
     template_name = "blog/post_form.html"
+    success_url = reverse_lazy('post-list')  # Redirect to post-list after creation
 
     def form_valid(self, form):
         form.instance.author = self.request.user
