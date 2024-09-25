@@ -128,18 +128,16 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
 
 def search_posts(request):
     query = request.GET.get('q')
-    if query:
-        posts = Post.objects.filter(
-            Q(title__icontains=query) | 
-            Q(content__icontains=query) | 
-            Q(tags__name__icontains=query)
-        ).distinct()
-    else:
-        posts = Post.objects.none()
-    
-    return render(request, 'blog/search_results.html', {'posts': posts, 'query': query})
+    results = Post.objects.filter(
+        Q(title__icontains=query) |
+        Q(content__icontains=query) |
+        Q(tags__name__icontains=query)
+    ).distinct()
+    return render(request, 'blog/search_results.html', {'results': results, 'query': query})
 
-def posts_by_tag(request, tag_name):
-    tag = Tag.objects.get(name=tag_name)
-    posts = tag.post_set.all()
+from taggit.models import Tag
+
+def posts_by_tag(request, tag_slug):
+    tag = Tag.objects.get(slug=tag_slug)
+    posts = Post.objects.filter(tags=tag)
     return render(request, 'blog/posts_by_tag.html', {'posts': posts, 'tag': tag})
