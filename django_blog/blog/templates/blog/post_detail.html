@@ -1,9 +1,52 @@
 {% extends "blog/base.html" %}
+
 {% block content %}
-    <h2>{{ post.title }}</h2>
-    <p>{{ post.content }}</p>
-    {% if post.author == user %}
-        <a href="{% url 'post-update' post.pk %}">Edit</a>
-        <a href="{% url 'post-delete' post.pk %}">Delete</a>
+    <article class="post">
+        <h2>{{ post.title }}</h2>
+        <p>{{ post.content }}</p>
+        <p><small>Posted by {{ post.author }} on {{ post.created_at }}</small></p>
+    </article>
+
+    <hr>
+    <h3>Tags:</h3>
+    {% for tag in post.tags.all %}
+    <a href="{% url 'posts_by_tag' tag.name %}">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
+    {% endfor %}
+
+    <h3>Comments ({{ post.comments.count }})</h3>
+
+    {% if post.comments.exists %}
+        <ul class="comment-list">
+            {% for comment in post.comments.all %}
+                <li>
+                    <p><strong>{{ comment.author }}</strong>: {{ comment.content }}</p>
+                    <p><small>Posted on {{ comment.created_at }}</small></p>
+
+                    {% if request.user == comment.author %}
+                        <!-- Edit and Delete buttons only for the comment author -->
+                        <p>
+                            <a href="{% url 'comment-edit' comment.pk %}" class="btn btn-sm btn-primary">Edit</a>
+                            <a href="{% url 'comment-delete' comment.pk %}" class="btn btn-sm btn-danger">Delete</a>
+                        </p>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No comments yet. Be the first to comment!</p>
+    {% endif %}
+
+    <hr>
+
+    <!-- Comment Form -->
+    <h4>Add a Comment</h4>
+    {% if user.is_authenticated %}
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-success">Post Comment</button>
+        </form>
+    {% else %}
+        <p>You must be <a href="{% url 'login' %}">logged in</a> to post a comment.</p>
     {% endif %}
 {% endblock %}

@@ -6,8 +6,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .models import Post
+from .models import Post , Comment
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.db.models import Q
 
 
 # Create your views here.
@@ -121,4 +122,24 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
     model = Comment
     fields = ["content"]
     template_name = "blog/comment_form.html"
-    success_url = reverse_lazy("post-list")²
+    success_url = reverse_lazy("post-list")
+
+# tag views
+
+def search_posts(request):
+    query = request.GET.get('q')
+    if query:
+        posts = Post.objects.filter(
+            Q(title__icontains=query) | 
+            Q(content__icontains=query) | 
+            Q(tags__name__icontains=query)
+        ).distinct()
+    else:
+        posts = Post.objects.none()
+    
+    return render(request, 'blog/search_results.html', {'posts': posts, 'query': query})
+
+def posts_by_tag(request, tag_name):
+    tag = Tag.objects.get(name=tag_name)
+    posts = tag.post_set.all()
+    return render(request, 'blog/posts_by_tag.html', {'posts': posts, 'tag': tag})
