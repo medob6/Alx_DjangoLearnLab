@@ -101,3 +101,24 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def test_func(self):
         post = self.get_object()
         return self.request.user == post.author
+    
+
+class CommentUpdateView(LoginRequiredMixin, UpdateView):
+    model = Comment
+    fields = ["content"]
+    template_name = "blog/comment_form.html"
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+    def get_success_url(self):
+        return reverse_lazy("post-detail", kwargs={"pk": self.kwargs["post_id"]})
+class CommentDeleteView(LoginRequiredMixin, DeleteView):
+    model = Comment
+    template_name = "blog/comment_confirm_delete.html"
+    success_url = reverse_lazy("post-list")
+class CommentCreateView(LoginRequiredMixin, CreateView):
+    model = Comment
+    fields = ["content"]
+    template_name = "blog/comment_form.html"
+    success_url = reverse_lazy("post-list")²
