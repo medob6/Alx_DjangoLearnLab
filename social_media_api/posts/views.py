@@ -43,9 +43,8 @@ def unlike_post(request, pk):
 
     return JsonResponse({'message': 'Post unliked successfully.'})
 
-
 class PostViewSet(viewsets.ModelViewSet):
-    queryset = Post.objects.filter(author__in=following_users).order_by
+    queryset = Post.objects.all()  # Fetch all posts
     serializer_class = PostSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
@@ -61,7 +60,6 @@ class PostViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
-
 
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
