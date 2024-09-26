@@ -10,8 +10,8 @@ class Post(models.Model):
     content = models.TextField()
     published_date = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    tags = TaggableManager()
-
+    #tags = models.ManyToManyField('Tag', related_name='post')
+    tags = TaggableManager()  # Replaces the ManyToManyField
     def __str__(self):
         return self.title
 # Creating a Profile Model that is linked to the User built in model with some 
@@ -31,3 +31,8 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.text
+class Tag(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
